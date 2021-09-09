@@ -329,6 +329,7 @@
                             <artifactSet>
                                 <excludes>
                                     <exclude>org.slf4j:*</exclude>
+                                    <exclude>org.bouncycastle:*</exclude>
                                 </excludes>
                             </artifactSet>
                             <minimizeJar>true</minimizeJar>

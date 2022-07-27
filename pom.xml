@@ -156,13 +156,13 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpg-jdk15on</artifactId>
-            <version>1.52</version>
+            <version>1.70</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.52</version>
+            <version>1.70</version>
             <scope>test</scope>
         </dependency>
 

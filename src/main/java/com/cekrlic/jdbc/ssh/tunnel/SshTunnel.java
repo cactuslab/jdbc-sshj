@@ -2,6 +2,7 @@ package com.cekrlic.jdbc.ssh.tunnel;
 
 import net.schmizz.sshj.SSHClient;
 import net.schmizz.sshj.connection.channel.direct.LocalPortForwarder;
+import net.schmizz.sshj.connection.channel.direct.Parameters;
 import net.schmizz.sshj.transport.verification.PromiscuousVerifier;
 import net.schmizz.sshj.userauth.keyprovider.FileKeyProvider;
 import net.schmizz.sshj.userauth.keyprovider.OpenSSHKeyFile;
@@ -211,10 +212,10 @@ public class SshTunnel extends AbstractTunnel {
 			determineLocalPort();
 			int localPort = this.localPort.get();
 
-			final LocalPortForwarder.Parameters params;
+			final Parameters params;
 			final String[] remotes = queryParameters.get(REMOTE).split(":", 2);
 
-			params = new LocalPortForwarder.Parameters(localHost, localPort, remotes[0], Integer.parseInt(remotes[1]));
+			params = new Parameters(localHost, localPort, remotes[0], Integer.parseInt(remotes[1]));
 			logger.debug("Forwarding {}:{} to {}:{}", localHost, localPort, remotes[0], remotes[1]);
 
 			ss = new ServerSocket();

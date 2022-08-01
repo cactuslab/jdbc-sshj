@@ -108,7 +108,14 @@ public abstract class AbstractSshJDriver implements Driver {
 		}
 
 		AbstractTunnel tunnel = getTunnel(url, d);
-		tunnel.ensureStarted();
+		try {
+			tunnel.ensureStarted();
+		} catch (SQLException e) {
+			/* The tunnel is invalid, so delete and recreate */
+			tunnel.stop("Broken");
+			deleteTunnel(url);
+			tunnel = getTunnel(url, d);
+		}
 		Connection c = getRealConnection(tunnel, info, d.getForwardingUrl(), tunnel.getLocalHost(), tunnel.getLocalPort());
 		return new SshConnection(tunnel, c);
 	}
@@ -129,7 +136,13 @@ public abstract class AbstractSshJDriver implements Driver {
 			} else {
 				synchronized (a) {
 					tunnel = a.get();
-					tunnel.ensureStarted();
+					try {
+						tunnel.ensureStarted();
+					} catch (SQLException e) {
+						/* The tunnel is invalid, so delete and recreate */
+						tunnel.stop("Broken");
+					}
+					
 					if(tunnel.isStopped() || !tunnel.isListening()) {
 						tunnel = newTunnel(d);
 						log.info("Tunnel stopped for {}, created a new tunnel: {}", url, tunnel);
@@ -143,6 +156,10 @@ public abstract class AbstractSshJDriver implements Driver {
 			throw new SQLException(e);
 		}
 		return tunnel;
+	}
+
+	public void deleteTunnel(String url) {
+		tunnelList.remove(url);
 	}
 
 	protected abstract AbstractTunnel newTunnel(ConnectionData d) throws IOException, SQLException;

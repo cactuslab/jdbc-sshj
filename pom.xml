@@ -333,6 +333,7 @@
                                 </excludes>
                             </artifactSet>
                             <minimizeJar>true</minimizeJar>
+                            <finalName>${project.artifactId}-${project.version}-uber</finalName>
                         </configuration>
                     </execution>
                 </executions>
